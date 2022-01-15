@@ -43,4 +43,21 @@ impl Trie {
         }
         current_node.end = true;
     }
+
+    pub fn contains(&mut self, word: &str) -> bool {
+        let mut current_node = &*self.root;
+        for character in word.chars() {
+            if !character.is_ascii_alphabetic() {
+                panic!("Lazy solution");
+            }
+            let val = character.to_ascii_lowercase() as usize - 97;
+            if current_node.nodes[val].is_some() {
+                current_node = &*current_node.nodes[val].as_ref().unwrap();
+            } else {
+                return false;
+            }
+        }
+
+        current_node.end
+    }
 }
