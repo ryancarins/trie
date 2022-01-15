@@ -60,4 +60,35 @@ impl Trie {
 
         current_node.end
     }
+
+    ///Delete the string from the trie. If the string didn't exist to begin with
+    /// returns false, otherwise returns true
+    /// TODO: Clean up extra nodes
+    pub fn delete(&mut self, word: &str) -> bool {
+        let mut current_node = &mut *self.root;
+
+        //Traverse to node to be deleted
+        for character in word.chars() {
+            if !character.is_ascii_alphabetic() {
+                panic!("Lazy solution");
+            }
+            let val = character.to_ascii_lowercase() as usize - 97;
+            if current_node.nodes[val].is_some() {
+                current_node = &mut *current_node.nodes[val].as_mut().unwrap();
+            } else {
+                return false;
+            }
+        }
+        current_node.end = false;
+        //Check if we are on a leaf node, if we aren't short circuit and return true as we don't have
+        //to delete extra nodes
+        for i in 0..26 {
+            if current_node.nodes[i].is_some() {
+                return true;
+            }
+        }
+        //TOOD: Clean up extra nodes
+
+        true
+    }
 }
