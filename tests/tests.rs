@@ -1,9 +1,9 @@
 mod tests {
-    use trie::Trie;
+    use trie::naive_trie::NaiveTrie;
 
     #[test]
-    fn test_insert() {
-        let mut trie = Trie::default();
+    fn naive_trie_test_insert() {
+        let mut trie = NaiveTrie::default();
         trie.insert("testing");
         assert!(trie.contains("testing"));
         //Make sure that undefined substrings aren't counted as words
@@ -11,8 +11,8 @@ mod tests {
     }
 
     #[test]
-    fn test_delete() {
-        let mut trie = Trie::default();
+    fn naive_trie_test_delete() {
+        let mut trie = NaiveTrie::default();
         trie.insert("testing");
         trie.insert("test");
         assert!(trie.contains("testing"));
