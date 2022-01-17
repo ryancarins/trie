@@ -1,5 +1,5 @@
 mod tests {
-    use trie::{naive_trie::NaiveTrie, vec_trie::VecTrie};
+    use trie::{naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie, vec_trie::VecTrie};
 
     #[test]
     fn naive_trie_test_insert() {
@@ -17,6 +17,25 @@ mod tests {
         trie.insert("test");
         assert!(trie.contains("testing"));
         trie.delete("test");
+        assert!(!trie.contains("test"));
+    }
+
+    #[test]
+    fn trimmed_hash_trie_test_insert() {
+        let mut trie = TrimmedHashTrie::default();
+        trie.insert("testing");
+        assert!(trie.contains("testing"));
+        //Make sure that undefined substrings aren't counted as words
+        assert!(!trie.contains("test"));
+    }
+
+    #[test]
+    fn trimmed_hash_trie_test_delete() {
+        let mut trie = TrimmedHashTrie::default();
+        trie.insert("testing");
+        trie.insert("test");
+        assert!(trie.contains("testing"));
+        //trie.delete("test");
         assert!(!trie.contains("test"));
     }
 
