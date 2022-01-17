@@ -1,3 +1,8 @@
+/// Naive trie
+///
+/// A trie implemented as nodes containing a boolean to signify if a node is the end of a word
+/// and an array of 26 pointers to other nodes with each index representing the character a-z
+
 #[derive(Debug)]
 pub struct NaiveTrie {
     root: Box<NaiveTrieNode>,
