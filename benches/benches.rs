@@ -5,25 +5,11 @@ extern crate test;
 #[cfg(test)]
 mod bench {
     use test::Bencher;
+    use trie::get_words_as_vec;
     use trie::{
         naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie,
         trimmed_vec_trie::TrimmedVecTrie, vec_trie::VecTrie,
     };
-
-    use std::fs::File;
-    use std::io::{prelude::*, BufReader};
-
-    //Helpers
-    fn get_words_as_vec() -> Vec<String> {
-        let mut vec = Vec::new();
-        let file = File::open("words.txt").unwrap();
-        let reader = BufReader::new(file);
-
-        for line in reader.lines() {
-            vec.push(line.unwrap());
-        }
-        vec
-    }
 
     //Insert benchmarks
     #[bench]

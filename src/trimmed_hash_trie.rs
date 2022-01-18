@@ -5,7 +5,7 @@ use ahash::RandomState;
  * For lack of a better name a trie that doesn't allocate extra memory for branches that don't exist using a HashMap instead
  * of an array
  */
-use std::collections::HashMap;
+use std::{collections::HashMap, thread::current};
 #[derive(Debug)]
 pub struct TrimmedHashTrie {
     root: TrimmedHashTrieNode,
@@ -65,5 +65,18 @@ impl TrimmedHashTrie {
     //Delete the string from the trie. If the string didn't exist to begin with
     // returns false, otherwise returns true
     // TODO: Clean up extra nodes
-    //pub fn delete(&mut self, word: &str) -> bool {}
+    pub fn delete(&mut self, word: &str) -> bool {
+        let mut current_node = &mut self.root;
+
+        for character in word.chars() {
+            let val = character as u8 - 97;
+            if !current_node.nodes.contains_key(&val) {
+                return false;
+            }
+            current_node = current_node.nodes.get_mut(&val).unwrap();
+        }
+
+        current_node.end = false;
+        true
+    }
 }

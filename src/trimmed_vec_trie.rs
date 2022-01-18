@@ -82,5 +82,27 @@ impl TrimmedVecTrie {
     //Delete the string from the trie. If the string didn't exist to begin with
     // returns false, otherwise returns true
     // TODO: Clean up extra nodes
-    //pub fn delete(&mut self, word: &str) -> bool {}
+    pub fn delete(&mut self, word: &str) -> bool {
+        let mut current_node = &mut self.root;
+        let mut next_node = 0; //Set this as 0 because the compiler can't guarantee this is initialised. I can however
+
+        for character in word.chars() {
+            let val = character as u8 - 97;
+            let mut found = false;
+            for (index, (i, _)) in current_node.nodes.iter().enumerate() {
+                if *i == val {
+                    next_node = index;
+                    found = true;
+                    break;
+                }
+            }
+            if !found {
+                return false;
+            }
+            current_node = &mut current_node.nodes[next_node].1;
+        }
+
+        current_node.end = false;
+        true
+    }
 }
