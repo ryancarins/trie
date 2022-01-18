@@ -1,3 +1,4 @@
+use ahash::RandomState;
 /**
  * Trimmed trie
  *
@@ -14,14 +15,14 @@ pub struct TrimmedHashTrie {
 struct TrimmedHashTrieNode {
     //Determines if a word/sequence has ended
     end: bool,
-    nodes: HashMap<u8, TrimmedHashTrieNode>,
+    nodes: HashMap<u8, TrimmedHashTrieNode, RandomState>,
 }
 
 impl TrimmedHashTrieNode {
     pub fn new(end: bool) -> Self {
         Self {
             end,
-            nodes: HashMap::new(),
+            nodes: HashMap::default(),
         }
     }
 }
