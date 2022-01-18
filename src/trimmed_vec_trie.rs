@@ -4,7 +4,6 @@
  * For lack of a better name a trie that doesn't allocate extra memory for branches that don't exist using a vector instead of an array
  * to add branches. Looping over this may be faster than using the hashmap as the vector has a maximum size of 26 elements
  */
-use std::{collections::HashMap, thread::current};
 #[derive(Debug)]
 pub struct TrimmedVecTrie {
     root: TrimmedVecTrieNode,
