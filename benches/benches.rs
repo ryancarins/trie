@@ -10,65 +10,97 @@ mod bench {
         trimmed_vec_trie::TrimmedVecTrie, vec_trie::VecTrie,
     };
 
+    use std::fs::File;
+    use std::io::{prelude::*, BufReader};
+
+    //Helpers
+    fn get_words_as_vec() -> Vec<String> {
+        let mut vec = Vec::new();
+        let file = File::open("words.txt").unwrap();
+        let reader = BufReader::new(file);
+
+        for line in reader.lines() {
+            vec.push(line.unwrap());
+        }
+        vec
+    }
+
     //Insert benchmarks
     #[bench]
     fn bench_insert_naive_trie(b: &mut Bencher) {
         let mut naive_trie = NaiveTrie::default();
 
-        b.iter(|| naive_trie.insert("test"));
+        b.iter(|| naive_trie.insert("tester"));
     }
 
     #[bench]
     fn bench_insert_vec_trie(b: &mut Bencher) {
         let mut vec_trie = VecTrie::default();
 
-        b.iter(|| vec_trie.insert("test"));
+        b.iter(|| vec_trie.insert("tester"));
     }
 
     #[bench]
     fn bench_insert_trimmed_hash_trie(b: &mut Bencher) {
         let mut trimmed_hash_trie = TrimmedHashTrie::default();
 
-        b.iter(|| trimmed_hash_trie.insert("test"));
+        b.iter(|| trimmed_hash_trie.insert("tester"));
     }
 
     #[bench]
     fn bench_insert_trimmed_vec_trie(b: &mut Bencher) {
         let mut trimmed_vec_trie = TrimmedVecTrie::default();
 
-        b.iter(|| trimmed_vec_trie.insert("test"));
+        b.iter(|| trimmed_vec_trie.insert("tester"));
     }
 
     //Existing lookup benchmarks
     #[bench]
     fn bench_contains_existing_naive_trie(b: &mut Bencher) {
         let mut naive_trie = NaiveTrie::default();
-        naive_trie.insert("test");
+        let words = get_words_as_vec();
+        for word in words {
+            naive_trie.insert(&word);
+        }
 
-        b.iter(|| naive_trie.contains("test"));
+        b.iter(|| {
+            let _blank = naive_trie.contains("tester");
+        });
     }
 
     #[bench]
     fn bench_contains_existing_vec_trie(b: &mut Bencher) {
         let mut vec_trie = VecTrie::default();
-        vec_trie.insert("test");
-
-        b.iter(|| vec_trie.contains("test"));
+        let words = get_words_as_vec();
+        for word in words {
+            vec_trie.insert(&word);
+        }
+        b.iter(|| {
+            let _blank = vec_trie.contains("tester");
+        });
     }
 
     #[bench]
     fn bench_contains_existing_trimmed_hash_trie(b: &mut Bencher) {
         let mut trimmed_hash_trie = TrimmedHashTrie::default();
-        trimmed_hash_trie.insert("test");
-
-        b.iter(|| trimmed_hash_trie.contains("test"));
+        let words = get_words_as_vec();
+        for word in words {
+            trimmed_hash_trie.insert(&word);
+        }
+        b.iter(|| {
+            let _blank = trimmed_hash_trie.contains("tester");
+        });
     }
 
     #[bench]
     fn bench_contains_existing_trimmed_vec_trie(b: &mut Bencher) {
         let mut trimmed_vec_trie = TrimmedVecTrie::default();
-        trimmed_vec_trie.insert("test");
-
-        b.iter(|| trimmed_vec_trie.contains("test"));
+        let words = get_words_as_vec();
+        for word in words {
+            trimmed_vec_trie.insert(&word);
+        }
+        b.iter(|| {
+            let _blank = trimmed_vec_trie.contains("tester");
+        });
     }
 }
