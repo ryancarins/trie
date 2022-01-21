@@ -36,22 +36,25 @@ mod bench {
     #[bench]
     fn bench_insert_hashset(b: &mut Bencher) {
         let mut hashset = HashSet::new();
+        let string = String::from("tester");
 
-        b.iter(|| hashset.insert(String::from("tester")));
+        b.iter(|| hashset.insert(&string));
     }
 
     #[bench]
     fn bench_insert_btreeset(b: &mut Bencher) {
         let mut btree = BTreeSet::new();
+        let string = String::from("tester");
 
-        b.iter(|| btree.insert(String::from("tester")));
+        b.iter(|| btree.insert(&string));
     }
 
     #[bench]
     fn bench_insert_vec(b: &mut Bencher) {
         let mut vec = Vec::new();
+        let string = String::from("tester");
 
-        b.iter(|| vec.push(String::from("tester")));
+        b.iter(|| vec.push(&string));
     }
 
     //Existing lookup benchmarks
@@ -119,17 +122,19 @@ mod bench {
     #[bench]
     fn bench_contains_vec(b: &mut Bencher) {
         let vec = get_words_as_vec();
+        let string = String::from("tester");
         b.iter(|| {
-            let _blank = vec.contains(&String::from("tester"));
+            let _blank = vec.contains(&string);
         });
     }
-    
+
     #[bench]
     fn bench_contains_sorted_vec(b: &mut Bencher) {
         let mut vec = get_words_as_vec();
         vec.sort();
+        let string = String::from("tester");
         b.iter(|| {
-            let _blank = vec.binary_search(&String::from("tester"));
+            let _blank = vec.binary_search(&string);
         });
     }
 }
