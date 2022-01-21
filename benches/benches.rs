@@ -4,11 +4,11 @@ extern crate test;
 
 #[cfg(test)]
 mod bench {
+    use std::collections::{BTreeSet, HashSet};
     use test::Bencher;
     use trie::get_words_as_vec;
     use trie::{
-        naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie,
-        trimmed_vec_trie::TrimmedVecTrie,
+        naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie, trimmed_vec_trie::TrimmedVecTrie,
     };
 
     //Insert benchmarks
@@ -31,6 +31,27 @@ mod bench {
         let mut trimmed_vec_trie = TrimmedVecTrie::default();
 
         b.iter(|| trimmed_vec_trie.insert("tester"));
+    }
+
+    #[bench]
+    fn bench_insert_hashset(b: &mut Bencher) {
+        let mut hashset = HashSet::new();
+
+        b.iter(|| hashset.insert(String::from("tester")));
+    }
+
+    #[bench]
+    fn bench_insert_btreeset(b: &mut Bencher) {
+        let mut btree = BTreeSet::new();
+
+        b.iter(|| btree.insert(String::from("tester")));
+    }
+
+    #[bench]
+    fn bench_insert_vec(b: &mut Bencher) {
+        let mut vec = Vec::new();
+
+        b.iter(|| vec.push(String::from("tester")));
     }
 
     //Existing lookup benchmarks
@@ -68,6 +89,47 @@ mod bench {
         }
         b.iter(|| {
             let _blank = trimmed_vec_trie.contains("tester");
+        });
+    }
+
+    #[bench]
+    fn bench_contains_hashset(b: &mut Bencher) {
+        let mut hashset = HashSet::new();
+        let words = get_words_as_vec();
+        for word in words {
+            hashset.insert(word);
+        }
+        b.iter(|| {
+            let _blank = hashset.contains("tester");
+        });
+    }
+
+    #[bench]
+    fn bench_contains_btreeset(b: &mut Bencher) {
+        let mut btree = BTreeSet::new();
+        let words = get_words_as_vec();
+        for word in words {
+            btree.insert(word);
+        }
+        b.iter(|| {
+            let _blank = btree.contains("tester");
+        });
+    }
+
+    #[bench]
+    fn bench_contains_vec(b: &mut Bencher) {
+        let vec = get_words_as_vec();
+        b.iter(|| {
+            let _blank = vec.contains(&String::from("tester"));
+        });
+    }
+    
+    #[bench]
+    fn bench_contains_sorted_vec(b: &mut Bencher) {
+        let mut vec = get_words_as_vec();
+        vec.sort();
+        b.iter(|| {
+            let _blank = vec.binary_search(&String::from("tester"));
         });
     }
 }

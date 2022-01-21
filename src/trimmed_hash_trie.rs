@@ -5,7 +5,7 @@ use ahash::RandomState;
  * For lack of a better name a trie that doesn't allocate extra memory for branches that don't exist using a HashMap instead
  * of an array
  */
-use std::{collections::HashMap, thread::current};
+use std::collections::HashMap;
 #[derive(Debug)]
 pub struct TrimmedHashTrie {
     root: TrimmedHashTrieNode,

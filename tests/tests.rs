@@ -1,7 +1,6 @@
 mod tests {
     use trie::{
-        naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie,
-        trimmed_vec_trie::TrimmedVecTrie,
+        naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie, trimmed_vec_trie::TrimmedVecTrie,
     };
 
     use trie::{get_3_letter_perms_as_vec, get_words_as_vec};
@@ -62,7 +61,6 @@ mod tests {
         trie.delete("test");
         assert!(!trie.contains("test"));
     }
-
 
     //Make sure all words exist
     #[test]
