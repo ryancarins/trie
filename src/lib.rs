@@ -4,6 +4,7 @@ pub mod trimmed_vec_trie;
 
 use std::fs::File;
 use std::io::{prelude::*, BufReader};
+use std::sync::mpsc::Sender;
 
 //Helpers
 pub fn get_words_as_vec() -> Vec<String> {

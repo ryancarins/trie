@@ -1,8 +1,9 @@
+use itertools::{Combinations, Itertools};
+
 /// Naive trie
 ///
 /// A trie implemented as nodes containing a boolean to signify if a node is the end of a word
 /// and an array of 26 pointers to other nodes with each index representing the character a-z
-
 #[derive(Debug)]
 pub struct NaiveTrie {
     root: Box<NaiveTrieNode>,
@@ -89,5 +90,21 @@ impl NaiveTrie {
         //TOOD: Clean up extra nodes
 
         true
+    }
+
+    ///Countdown search
+    ///Given a string find all combinations of it's characters that make valid words
+    ///Named for the game show countdown
+    pub fn countdown_search(&mut self, string: &str) -> Vec<String> {
+        let mut words = Vec::new();
+        for i in 1..string.len()+1 {
+            for comb in string.chars().combinations(i) {
+                let temp: String = comb.into_iter().collect();
+                if self.contains(&temp) {
+                    words.push(temp);
+                }
+            }
+        }
+        words
     }
 }
