@@ -3,7 +3,7 @@ use std::{convert::Infallible, str::FromStr};
 use std::sync::Arc;
 
 use warp::Filter;
-use trie::{trimmed_vec_trie::TrimmedVecTrie, get_words_as_vec};
+use trie::{naive_trie::NaiveTrie, get_words_as_vec};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -29,11 +29,11 @@ impl FromStr for Words {
     }
 }
 
-fn with_trie(trie: Arc<TrimmedVecTrie>) -> impl Filter<Extract = (Arc<TrimmedVecTrie>,), Error = std::convert::Infallible> + Clone {
+fn with_trie(trie: Arc<NaiveTrie>) -> impl Filter<Extract = (Arc<NaiveTrie>,), Error = std::convert::Infallible> + Clone {
     warp::any().map(move || trie.clone())
 }
 
-async fn contains(words: Words, trie: Arc<TrimmedVecTrie>) -> Result<impl warp::Reply, Infallible>   {
+async fn contains(words: Words, trie: Arc<NaiveTrie>) -> Result<impl warp::Reply, Infallible>   {
     let mut results: Vec<Res> = Vec::new();
     for word in words.words {
         results.push(Res{result: trie.contains(&word), word});
@@ -47,7 +47,7 @@ async fn contains(words: Words, trie: Arc<TrimmedVecTrie>) -> Result<impl warp::
 
 #[tokio::main]
 async fn main() {
-    let mut trie = TrimmedVecTrie::default();
+    let mut trie = NaiveTrie::default();
     let words = get_words_as_vec();
 
     for word in &words {

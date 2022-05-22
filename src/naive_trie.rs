@@ -46,7 +46,7 @@ impl NaiveTrie {
         current_node.end = true;
     }
 
-    pub fn contains(&mut self, word: &str) -> bool {
+    pub fn contains(&self, word: &str) -> bool {
         let mut current_node = &*self.root;
         for character in word.chars() {
             let val = character as usize - 97;
