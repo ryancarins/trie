@@ -4,12 +4,12 @@
  * For lack of a better name a trie that doesn't allocate extra memory for branches that don't exist using a vector instead of an array
  * to add branches. Looping over this may be faster than using the hashmap as the vector has a maximum size of 26 elements
  */
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TrimmedVecTrie {
     root: TrimmedVecTrieNode,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct TrimmedVecTrieNode {
     //Determines if a word/sequence has ended
     end: bool,
@@ -57,8 +57,8 @@ impl TrimmedVecTrie {
         current_node.end = true;
     }
 
-    pub fn contains(&mut self, word: &str) -> bool {
-        let mut current_node = &mut self.root;
+    pub fn contains(&self, word: &str) -> bool {
+        let mut current_node = &self.root;
         let mut next_node = 0; //Set this as 0 because the compiler can't guarantee this is initialised. I can however
 
         for character in word.chars() {
@@ -74,7 +74,7 @@ impl TrimmedVecTrie {
             if !found {
                 return false;
             }
-            current_node = &mut current_node.nodes[next_node].1;
+            current_node = &current_node.nodes[next_node].1;
         }
         current_node.end
     }
