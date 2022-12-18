@@ -6,6 +6,8 @@ use ahash::RandomState;
  * of an array
  */
 use std::collections::HashMap;
+
+use crate::trie::Trie;
 #[derive(Debug)]
 pub struct TrimmedHashTrie {
     root: TrimmedHashTrieNode,
@@ -27,14 +29,16 @@ impl TrimmedHashTrieNode {
     }
 }
 
-impl TrimmedHashTrie {
-    pub fn default() -> Self {
+impl Default for TrimmedHashTrie {
+    fn default() -> Self {
         Self {
             root: TrimmedHashTrieNode::new(false),
         }
     }
+}
 
-    pub fn insert(&mut self, word: &str) {
+impl Trie for TrimmedHashTrie {
+    fn insert(&mut self, word: &str) {
         let mut current_node = &mut self.root;
 
         for character in word.chars() {
@@ -48,7 +52,7 @@ impl TrimmedHashTrie {
         current_node.end = true;
     }
 
-    pub fn contains(&mut self, word: &str) -> bool {
+    fn contains(&mut self, word: &str) -> bool {
         let mut current_node = &mut self.root;
 
         for character in word.chars() {
@@ -65,7 +69,7 @@ impl TrimmedHashTrie {
     //Delete the string from the trie. If the string didn't exist to begin with
     // returns false, otherwise returns true
     // TODO: Clean up extra nodes
-    pub fn delete(&mut self, word: &str) -> bool {
+    fn delete(&mut self, word: &str) -> bool {
         let mut current_node = &mut self.root;
 
         for character in word.chars() {

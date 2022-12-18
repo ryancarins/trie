@@ -1,3 +1,5 @@
+use crate::trie::Trie;
+
 /**
  * Trimmed trie
  *
@@ -24,15 +26,16 @@ impl TrimmedVecTrieNode {
         }
     }
 }
-
-impl TrimmedVecTrie {
-    pub fn default() -> Self {
+impl Default for TrimmedVecTrie {
+    fn default() -> Self {
         Self {
             root: TrimmedVecTrieNode::new(false),
         }
     }
+}
 
-    pub fn insert(&mut self, word: &str) {
+impl Trie for TrimmedVecTrie {
+    fn insert(&mut self, word: &str) {
         let mut current_node = &mut self.root;
         let mut next_node = 0; //Set this as 0 because the compiler can't guarantee this is initialised. I can however
 
@@ -57,7 +60,7 @@ impl TrimmedVecTrie {
         current_node.end = true;
     }
 
-    pub fn contains(&mut self, word: &str) -> bool {
+    fn contains(&mut self, word: &str) -> bool {
         let mut current_node = &mut self.root;
         let mut next_node = 0; //Set this as 0 because the compiler can't guarantee this is initialised. I can however
 
@@ -82,7 +85,7 @@ impl TrimmedVecTrie {
     //Delete the string from the trie. If the string didn't exist to begin with
     // returns false, otherwise returns true
     // TODO: Clean up extra nodes
-    pub fn delete(&mut self, word: &str) -> bool {
+    fn delete(&mut self, word: &str) -> bool {
         let mut current_node = &mut self.root;
         let mut next_node = 0; //Set this as 0 because the compiler can't guarantee this is initialised. I can however
 

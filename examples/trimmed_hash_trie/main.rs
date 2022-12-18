@@ -1,3 +1,4 @@
+use trie::trie::Trie;
 use trie::trimmed_hash_trie::TrimmedHashTrie;
 use trie::get_words_as_vec;
 

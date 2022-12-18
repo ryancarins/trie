@@ -1,3 +1,5 @@
+use crate::trie::Trie;
+
 /// Naive trie
 ///
 /// A trie implemented as nodes containing a boolean to signify if a node is the end of a word
@@ -27,14 +29,16 @@ impl NaiveTrieNode {
     }
 }
 
-impl NaiveTrie {
-    pub fn default() -> Self {
+impl Default for NaiveTrie {
+    fn default() -> Self {
         Self {
             root: Box::new(NaiveTrieNode::new(false)),
         }
     }
+}
 
-    pub fn insert(&mut self, word: &str) {
+impl Trie for NaiveTrie {
+    fn insert(&mut self, word: &str) {
         let mut current_node = &mut *self.root;
         for character in word.chars() {
             let val = character as usize - 97;
@@ -46,7 +50,7 @@ impl NaiveTrie {
         current_node.end = true;
     }
 
-    pub fn contains(&mut self, word: &str) -> bool {
+    fn contains(&mut self, word: &str) -> bool {
         let mut current_node = &*self.root;
         for character in word.chars() {
             let val = character as usize - 97;
@@ -63,7 +67,7 @@ impl NaiveTrie {
     ///Delete the string from the trie. If the string didn't exist to begin with
     /// returns false, otherwise returns true
     /// TODO: Clean up extra nodes
-    pub fn delete(&mut self, word: &str) -> bool {
+    fn delete(&mut self, word: &str) -> bool {
         let mut current_node = &mut *self.root;
 
         //Traverse to node to be deleted

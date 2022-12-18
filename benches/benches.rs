@@ -7,6 +7,7 @@ mod bench {
     use std::collections::{BTreeSet, HashSet};
     use test::Bencher;
     use trie::get_words_as_vec;
+    use trie::trie::Trie;
     use trie::{
         naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie, trimmed_vec_trie::TrimmedVecTrie,
     };
