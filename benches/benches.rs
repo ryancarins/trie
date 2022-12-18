@@ -6,6 +6,7 @@ extern crate test;
 mod bench {
     use std::collections::{BTreeSet, HashSet};
     use test::Bencher;
+    use trie::bit_trie::BitTrie;
     use trie::get_words_as_vec;
     use trie::trie::Trie;
     use trie::{
@@ -32,6 +33,13 @@ mod bench {
         let mut trimmed_vec_trie = TrimmedVecTrie::default();
 
         b.iter(|| trimmed_vec_trie.insert("tester"));
+    }
+
+    #[bench]
+    fn bench_insert_bit_trie(b: &mut Bencher) {
+        let mut bit_vec_trie = BitTrie::default();
+
+        b.iter(|| bit_vec_trie.insert("tester"));
     }
 
     #[bench]
