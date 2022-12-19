@@ -105,6 +105,18 @@ mod bench {
     }
 
     #[bench]
+    fn bench_contains_existing_bit_trie(b: &mut Bencher) {
+        let mut bit_trie = BitTrie::default();
+        let words = get_words_as_vec();
+        for word in words {
+            bit_trie.insert(&word);
+        }
+        b.iter(|| {
+            let _blank = bit_trie.contains("tester");
+        });
+    }
+
+    #[bench]
     fn bench_contains_hashset(b: &mut Bencher) {
         let mut hashset = HashSet::new();
         let words = get_words_as_vec();

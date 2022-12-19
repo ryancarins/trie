@@ -1,4 +1,5 @@
 mod tests {
+    use trie::bit_trie::BitTrie;
     use trie::trie::Trie;
     use trie::{
         naive_trie::NaiveTrie, trimmed_hash_trie::TrimmedHashTrie, trimmed_vec_trie::TrimmedVecTrie,
@@ -111,6 +112,28 @@ mod tests {
     #[test]
     fn full_check_naive() {
         let mut trie = NaiveTrie::default();
+        let words = get_words_as_vec();
+        let perms = get_3_letter_perms_as_vec();
+        for word in &words {
+            trie.insert(word);
+        }
+
+        for word in &words {
+            assert!(trie.contains(word));
+        }
+
+        let mut count = 0;
+        for perm in &perms {
+            if trie.contains(perm) {
+                count += 1;
+            }
+        }
+        assert_eq!(count, 2079);
+    }
+
+    #[test]
+    fn full_check_bit_trie() {
+        let mut trie = BitTrie::default();
         let words = get_words_as_vec();
         let perms = get_3_letter_perms_as_vec();
         for word in &words {
